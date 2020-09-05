@@ -13,7 +13,7 @@ namespace SuperCube3D_DAL
     {
         public SuperCubeContext() : base("DefaultConnection")
         {
-
+            Database.SetInitializer(new CustomInitializer());
         }
 
         public DbSet<Score> HighScores { get; set; }

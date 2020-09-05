@@ -44,10 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomInitializer.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Migrations\202009041232050_InitialCreate.cs" />
     <Compile Include="Migrations\202009041232050_InitialCreate.designer.cs">
       <DependentUpon>202009041232050_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009042023188_AddLoginCounter.cs" />
+    <Compile Include="Migrations\202009042023188_AddLoginCounter.designer.cs">
+      <DependentUpon>202009042023188_AddLoginCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009051210498_Player-AchievementToMany-To-Many.cs" />
+    <Compile Include="Migrations\202009051210498_Player-AchievementToMany-To-Many.designer.cs">
+      <DependentUpon>202009051210498_Player-AchievementToMany-To-Many.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Achievement.cs" />
@@ -73,6 +82,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202009041232050_InitialCreate.resx">
       <DependentUpon>202009041232050_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009042023188_AddLoginCounter.resx">
+      <DependentUpon>202009042023188_AddLoginCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009051210498_Player-AchievementToMany-To-Many.resx">
+      <DependentUpon>202009051210498_Player-AchievementToMany-To-Many.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

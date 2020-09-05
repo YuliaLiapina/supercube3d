@@ -10,6 +10,13 @@ namespace SuperCube3D_DAL.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class Player : IdentityUser
     {
+        public Player()
+        {
+            HighScores = new Score[10];
+            Achievements = new List<Achievement>();
+        }
+
+        public int SuccessfulLoginCount { get; set; }
         public Score[] HighScores { get; set; }
         public ICollection<Achievement> Achievements { get; set; }
 
