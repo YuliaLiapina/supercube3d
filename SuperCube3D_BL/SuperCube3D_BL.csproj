@@ -82,7 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Interfaces\IScoreManager.cs" />
     <Compile Include="Managers\PlayerManager.cs" />
+    <Compile Include="Managers\ScoreManager.cs" />
     <Compile Include="Models\AchievementModel.cs" />
     <Compile Include="Models\ScoreModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,9 +99,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

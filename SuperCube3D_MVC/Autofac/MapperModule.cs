@@ -1,5 +1,8 @@
 ﻿using Autofac;
 using AutoMapper;
+using SuperCube3D_BL.Models;
+using SuperCube3D_DAL.Models;
+using SuperCube3D_MVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +17,15 @@ namespace SuperCube3D_MVC.Autofac
             builder.Register(context => new MapperConfiguration(cfg =>
             {
                 //maps here
+                cfg.CreateMap<Achievement, AchievementModel>();
+                cfg.CreateMap<AchievementModel, AchievementViewModel>();
+                cfg.CreateMap<AchievementViewModel, AchievementModel>();
+                cfg.CreateMap<AchievementModel, Achievement>();
+
+                cfg.CreateMap<Score, ScoreModel>();
+                cfg.CreateMap<ScoreModel, ScoreViewModel>();
+                cfg.CreateMap<ScoreViewModel, ScoreModel>();
+                cfg.CreateMap<ScoreModel, Score>();
             }))
             .AsSelf()
             .SingleInstance();

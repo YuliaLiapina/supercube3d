@@ -1,6 +1,9 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using Microsoft.AspNet.Identity;
+using SuperCube3D_BL.Interfaces;
+using SuperCube3D_BL.Managers;
 using SuperCube3D_DAL.Models;
 using SuperCube3D_DAL.Repositories;
 using System;
@@ -21,16 +24,15 @@ namespace SuperCube3D_MVC.Autofac
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterApiControllers(typeof(MvcApplication).Assembly);
 
-            //builder.RegisterType<ScoreRepository>().As<RepositoryBase<Score>>();
-            //builder.RegisterType<AnimalsManager>().As<IAnimalsManager>();
-            //builder.RegisterType<JsonConverter>().As<IJsonConverter>();
-
-            //builder.RegisterModule<MapperModule>();
+            builder.RegisterType<PlayerManager>().As<UserManager<Player>>();
+            builder.RegisterType<ScoreManager>().As<IScoreManager>();
+            builder.RegisterType<ScoreRepository>().As<RepositoryBase<Score>>();
+            builder.RegisterModule<MapperModule>();
 
             var container = builder.Build();
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver((IContainer)container);
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

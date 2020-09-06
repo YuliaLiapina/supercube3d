@@ -68,7 +68,7 @@ namespace SuperCube3D_BL.Managers
 
             if (player.SuccessfulLoginCount >= 3 && loginAchievement.Players.Contains(player) == false)
             {
-                ActivateAchievement(player, 1);
+                ActivateAchievement(dbCtx, player, 1);
             }
 
             var result = await UpdateAsync(player);
@@ -78,22 +78,8 @@ namespace SuperCube3D_BL.Managers
             return result;
         }
 
-        private void ActivateAchievement(Player player, int achievementId)
+        private void ActivateAchievement(SuperCubeContext context, Player player, int achievementId)
         {
-            //using (var ctx = new SuperCubeContext())
-            //{
-            //    var achievement = ctx.Achievements.FirstOrDefault(ach => ach.Id == id);
-
-            //    if (achievement != null)
-            //    {
-            //        achievement.Players.Add(player);
-            //        player.Achievements.Add(achievement);
-            //        //_achievementRepository.Edit(achievement);
-
-            //        ctx.SaveChanges();
-            //    }
-            //}
-
             var achievement = _achievementRepository.Get(achievementId);
 
             if (achievement != null)
@@ -102,7 +88,9 @@ namespace SuperCube3D_BL.Managers
 
                 achievement.Players.Add(player);
 
-                _achievementRepository.Update(achievement);
+                //_achievementRepository.Update(achievement);
+
+                context.SaveChanges();
             }
         }
     }
