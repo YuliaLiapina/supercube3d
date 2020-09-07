@@ -11,16 +11,11 @@ namespace SuperCube3D_DAL.Repositories
 {
     public class AchievementRepository
     {
-        //public AchievementRepository() : base(new SuperCubeContext())
-        //{
-
-        //}
-
         public Achievement Get(int id)
         {
             using (var ctx = new SuperCubeContext())
             {
-                var achievements = ctx.Achievements.Include(ach => ach.Players);
+                var achievements = ctx.Achievements.Include(ach => ach.PlayerAchievements);
 
                 return achievements.FirstOrDefault(ach => ach.Id.Equals(id));
             }

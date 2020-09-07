@@ -12,12 +12,13 @@ namespace SuperCube3D_DAL.Models
     {
         public Player()
         {
-            Achievements = new List<Achievement>();
+            PlayerAchievements = new List<PlayerAchievement>();
+            HighScores = new List<Score>();
         }
 
         public int SuccessfulLoginCount { get; set; }
-        public Score HighScore { get; set; }
-        public ICollection<Achievement> Achievements { get; set; }
+        public ICollection<Score> HighScores { get; set; }
+        public ICollection<PlayerAchievement> PlayerAchievements { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Player> manager)
         {

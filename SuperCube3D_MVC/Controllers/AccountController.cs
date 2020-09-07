@@ -87,7 +87,7 @@ namespace SuperCube3D_MVC.Controllers
 
                 authManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
 
-                await userManager.IncreaseSuccessfulLoginCount(HttpContext.GetOwinContext(), user);
+                await userManager.IncreaseSuccessfulLoginCount(user);
             }
 
             return RedirectToAction("Index", "Home");

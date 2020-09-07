@@ -18,10 +18,40 @@ namespace SuperCube3D_DAL
 
         public DbSet<Score> HighScores { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<PlayerAchievement> PlayerAchievements { get; set; }
 
         public static SuperCubeContext Create()
         {
             return new SuperCubeContext();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Score>()
+                .ToTable("HighScores");
+
+            modelBuilder.Entity<Player>()
+                .HasMany<Score>(p => p.HighScores)
+                .WithRequired(s => s.Player)
+                .HasForeignKey(s => s.PlayerId);
+
+            modelBuilder.Entity<PlayerAchievement>()
+                .HasKey(pa => new
+                {
+                    pa.PlayerId, pa.AchievementId
+                });
+
+            modelBuilder.Entity<PlayerAchievement>()
+                .HasRequired(pa => pa.Achievement)
+                .WithMany(a => a.PlayerAchievements)
+                .HasForeignKey(pa => pa.AchievementId);
+
+            modelBuilder.Entity<PlayerAchievement>()
+                .HasRequired(pa => pa.Player)
+                .WithMany(p => p.PlayerAchievements)
+                .HasForeignKey(pa => pa.PlayerId);
         }
     }
 }

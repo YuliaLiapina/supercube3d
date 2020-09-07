@@ -25,6 +25,7 @@ namespace SuperCube3D_MVC.Autofac
                 cfg.CreateMap<Score, ScoreModel>();
                 cfg.CreateMap<ScoreModel, ScoreViewModel>();
                 cfg.CreateMap<ScoreViewModel, ScoreModel>();
+                cfg.CreateMap<ScorePostModel, ScoreModel>();
                 cfg.CreateMap<ScoreModel, Score>();
             }))
             .AsSelf()

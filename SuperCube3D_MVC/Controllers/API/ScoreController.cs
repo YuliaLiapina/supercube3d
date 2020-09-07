@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SuperCube3D_BL.Interfaces;
+using SuperCube3D_BL.Managers;
 using SuperCube3D_BL.Models;
 using SuperCube3D_DAL.Models;
 using SuperCube3D_MVC.Models;
@@ -13,6 +14,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace SuperCube3D_MVC.Controllers.API
 {
@@ -22,11 +24,11 @@ namespace SuperCube3D_MVC.Controllers.API
         private readonly IScoreManager _scoreManager;
         private readonly UserManager<Player> _playerManager;
 
-        public ScoreController(IMapper mapper, IScoreManager scoreManager, UserManager<Player> playerManager)
+        public ScoreController(IMapper mapper, IScoreManager scoreManager)
         {
             _mapper = mapper;
             _scoreManager = scoreManager;
-            _playerManager = playerManager;
+            _playerManager = HttpContext.Current.GetOwinContext().GetUserManager<PlayerManager>();
         }
 
         // GET: api/Score
@@ -48,8 +50,6 @@ namespace SuperCube3D_MVC.Controllers.API
         // POST: api/Game
         public void Post([FromBody] JObject unityScoreJson)
         {
-            //need to test asap!
-
             var unityScore = unityScoreJson.ToObject<ScorePostModel>();
 
             var player = _playerManager.FindById(User.Identity.GetUserId());

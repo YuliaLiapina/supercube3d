@@ -11,13 +11,13 @@ namespace SuperCube3D_DAL.Models
     {
         public Achievement()
         {
-            Players = new List<Player>();
+            PlayerAchievements = new List<PlayerAchievement>();
         }
 
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
 
-        public ICollection<Player> Players { get; set; }
+        public ICollection<PlayerAchievement> PlayerAchievements { get; set; }
     }
 }

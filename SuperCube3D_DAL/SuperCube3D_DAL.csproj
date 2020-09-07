@@ -58,11 +58,25 @@
     <Compile Include="Migrations\202009051210498_Player-AchievementToMany-To-Many.designer.cs">
       <DependentUpon>202009051210498_Player-AchievementToMany-To-Many.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009070013570_ConfigurePlayer-ScoreRelation.cs" />
+    <Compile Include="Migrations\202009070013570_ConfigurePlayer-ScoreRelation.designer.cs">
+      <DependentUpon>202009070013570_ConfigurePlayer-ScoreRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009071333259_CustomPlayerAchievementsTable.cs" />
+    <Compile Include="Migrations\202009071333259_CustomPlayerAchievementsTable.designer.cs">
+      <DependentUpon>202009071333259_CustomPlayerAchievementsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009071435250_ManuallyCreatedPlayerAchievements.cs" />
+    <Compile Include="Migrations\202009071435250_ManuallyCreatedPlayerAchievements.designer.cs">
+      <DependentUpon>202009071435250_ManuallyCreatedPlayerAchievements.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Achievement.cs" />
+    <Compile Include="Models\PlayerAchievement.cs" />
     <Compile Include="Models\Score.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Repositories\AchievementRepository.cs" />
+    <Compile Include="Repositories\PlayerAchievementRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\ScoreRepository.cs" />
     <Compile Include="SuperCubeContext.cs" />
@@ -88,6 +102,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009051210498_Player-AchievementToMany-To-Many.resx">
       <DependentUpon>202009051210498_Player-AchievementToMany-To-Many.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009070013570_ConfigurePlayer-ScoreRelation.resx">
+      <DependentUpon>202009070013570_ConfigurePlayer-ScoreRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009071333259_CustomPlayerAchievementsTable.resx">
+      <DependentUpon>202009071333259_CustomPlayerAchievementsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009071435250_ManuallyCreatedPlayerAchievements.resx">
+      <DependentUpon>202009071435250_ManuallyCreatedPlayerAchievements.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

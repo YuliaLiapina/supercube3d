@@ -18,11 +18,13 @@ namespace SuperCube3D_BL.Managers
     {
         //create playerRepository maybe?
         private readonly AchievementRepository _achievementRepository;
+        private readonly PlayerAchievementRepository _playerAchievementRepository;
 
         public PlayerManager(IUserStore<Player> store)
                 : base(store)
         {
             _achievementRepository = new AchievementRepository();
+            _playerAchievementRepository = new PlayerAchievementRepository();
         }
 
         public static PlayerManager Create(IdentityFactoryOptions<PlayerManager> options, IOwinContext context)
@@ -56,42 +58,37 @@ namespace SuperCube3D_BL.Managers
             return manager;
         }
 
-        public async Task<IdentityResult> IncreaseSuccessfulLoginCount(IOwinContext context, Player player)
+        public async Task<IdentityResult> IncreaseSuccessfulLoginCount(Player player)
         {
-            var dbCtx = context.Get<SuperCubeContext>();
-
             player.SuccessfulLoginCount += 1;
-
-            //var loginAchievement = player.Achievements.FirstOrDefault(ach => ach.Id == 1);
-
-            var loginAchievement = _achievementRepository.Get(1);
-
-            if (player.SuccessfulLoginCount >= 3 && loginAchievement.Players.Contains(player) == false)
-            {
-                ActivateAchievement(dbCtx, player, 1);
-            }
 
             var result = await UpdateAsync(player);
 
-            dbCtx.SaveChanges();
+            //var loginAchievement = player.Achievements.FirstOrDefault(ach => ach.Id == 1);
+
+            var loginPlayerAchievement = _playerAchievementRepository.Get(player.Id, 1);
+
+            if (player.SuccessfulLoginCount >= 3 && loginPlayerAchievement == null)
+            {
+                //await ActivateAchievement(player, 1);
+                _playerAchievementRepository.Create(player.Id, 1);
+            }
 
             return result;
         }
 
-        private void ActivateAchievement(SuperCubeContext context, Player player, int achievementId)
-        {
-            var achievement = _achievementRepository.Get(achievementId);
+        //private async Task<IdentityResult> ActivateAchievement(Player player, int achievementId)
+        //{
+        //    var achievement = _achievementRepository.Get(achievementId);
 
-            if (achievement != null)
-            {
-                //dynamic proxy player is added
+        //    if (achievement != null)
+        //    {
+        //        //player.PlayerAchievements.Add(achievement);
+        //    }
 
-                achievement.Players.Add(player);
+        //    var result = await UpdateAsync(player);
 
-                //_achievementRepository.Update(achievement);
-
-                context.SaveChanges();
-            }
-        }
+        //    return result;
+        //}
     }
 }
