@@ -14,11 +14,6 @@ namespace SuperCube3D_MVC.Models
         public bool BrowserRemembered { get; set; }
     }
 
-    public class FactorViewModel
-    {
-        public string Purpose { get; set; }
-    }
-
     public class SetPasswordViewModel
     {
         [Required]

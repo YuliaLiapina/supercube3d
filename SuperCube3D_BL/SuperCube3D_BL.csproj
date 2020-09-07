@@ -82,8 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Interfaces\IPlayerService.cs" />
     <Compile Include="Interfaces\IScoreManager.cs" />
     <Compile Include="Managers\PlayerManager.cs" />
+    <Compile Include="Managers\PlayerService.cs" />
     <Compile Include="Managers\ScoreManager.cs" />
     <Compile Include="Models\AchievementModel.cs" />
     <Compile Include="Models\ScoreModel.cs" />

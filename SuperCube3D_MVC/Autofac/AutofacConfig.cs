@@ -27,6 +27,7 @@ namespace SuperCube3D_MVC.Autofac
             builder.RegisterType<PlayerManager>().As<UserManager<Player>>();
             builder.RegisterType<ScoreManager>().As<IScoreManager>();
             builder.RegisterType<ScoreRepository>().As<RepositoryBase<Score>>();
+            builder.RegisterType<PlayerService>().As<IPlayerService>();
             builder.RegisterModule<MapperModule>();
 
             var container = builder.Build();

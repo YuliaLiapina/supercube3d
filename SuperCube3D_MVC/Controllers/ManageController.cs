@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SuperCube3D_BL.Interfaces;
 using SuperCube3D_BL.Managers;
 using SuperCube3D_MVC.Models;
 
@@ -16,15 +19,22 @@ namespace SuperCube3D_MVC.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private PlayerManager _userManager;
+        private readonly IPlayerService _playerService;
+        private readonly IMapper _mapper;
 
-        public ManageController()
+        public ManageController(IPlayerService playerService, IMapper mapper)
         {
+            _playerService = playerService;
+            _mapper = mapper;
         }
 
-        public ManageController(PlayerManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(PlayerManager userManager, ApplicationSignInManager signInManager,
+            IPlayerService playerService, IMapper mapper)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _playerService = playerService;
+            _mapper = mapper;
         }
 
         public ApplicationSignInManager SignInManager
@@ -136,6 +146,17 @@ namespace SuperCube3D_MVC.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        public async Task<ActionResult> Achievements()
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            var achievements = _playerService.GetAchievements(user);
+
+            var model = _mapper.Map<List<AchievementViewModel>>(achievements);
+
             return View(model);
         }
 

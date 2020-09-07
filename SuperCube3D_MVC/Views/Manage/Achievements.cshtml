@@ -1,0 +1,17 @@
+﻿@model IEnumerable<SuperCube3D_MVC.Models.AchievementViewModel>
+
+@{
+    ViewBag.Title = "Achievements";
+}
+
+<h2>Achievements</h2>
+
+<ul>
+    @foreach(var ach in Model)
+    {
+        <li>
+            @ach.Title : @ach.Description
+        </li>
+    }
+</ul>
+

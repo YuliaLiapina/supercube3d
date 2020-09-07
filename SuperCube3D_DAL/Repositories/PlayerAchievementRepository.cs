@@ -9,6 +9,14 @@ namespace SuperCube3D_DAL.Repositories
 {
     public class PlayerAchievementRepository
     {
+        public IEnumerable<PlayerAchievement> GetAllByPlayerId(string playerId)
+        {
+            using (var ctx = new SuperCubeContext())
+            {
+                return ctx.PlayerAchievements.Where(pa => pa.PlayerId == playerId).ToList();
+            }
+        }
+
         public PlayerAchievement Get(string playerId, int achievementId)
         {
             using (var ctx = new SuperCubeContext())

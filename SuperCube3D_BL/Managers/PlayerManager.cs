@@ -11,14 +11,16 @@ using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 using SuperCube3D_DAL.Repositories;
+using SuperCube3D_BL.Models;
+using AutoMapper;
 
 namespace SuperCube3D_BL.Managers
 {
     public class PlayerManager : UserManager<Player>
     {
-        //create playerRepository maybe?
         private readonly AchievementRepository _achievementRepository;
         private readonly PlayerAchievementRepository _playerAchievementRepository;
+        private readonly IMapper _mapper;
 
         public PlayerManager(IUserStore<Player> store)
                 : base(store)
