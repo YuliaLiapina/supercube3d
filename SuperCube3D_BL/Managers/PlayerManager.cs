@@ -22,20 +22,16 @@ namespace SuperCube3D_BL.Managers
         private readonly PlayerAchievementRepository _playerAchievementRepository;
         private readonly IMapper _mapper;
 
-        public PlayerManager(IUserStore<Player> store)
+        public PlayerManager(IUserStore<Player> store, IdentityFactoryOptions<PlayerManager> options,
+            IMapper mapper)
                 : base(store)
         {
             _achievementRepository = new AchievementRepository();
             _playerAchievementRepository = new PlayerAchievementRepository();
-        }
-
-        public static PlayerManager Create(IdentityFactoryOptions<PlayerManager> options, IOwinContext context)
-        {
-            SuperCubeContext db = context.Get<SuperCubeContext>();
-            var manager = new PlayerManager(new UserStore<Player>(db));
+            _mapper = mapper;
 
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<Player>(manager)
+            this.UserValidator = new UserValidator<Player>(this)
             {
                 AllowOnlyAlphanumericUserNames = true,
                 RequireUniqueEmail = true,
@@ -43,7 +39,7 @@ namespace SuperCube3D_BL.Managers
             };
 
             // Configure validation logic for passwords
-            manager.PasswordValidator = new PasswordValidator
+            this.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
                 RequireNonLetterOrDigit = true,
@@ -53,11 +49,9 @@ namespace SuperCube3D_BL.Managers
             };
 
             // Configure user lockout defaults
-            manager.UserLockoutEnabledByDefault = true;
-            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            manager.MaxFailedAccessAttemptsBeforeLockout = 5;
-
-            return manager;
+            this.UserLockoutEnabledByDefault = true;
+            this.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            this.MaxFailedAccessAttemptsBeforeLockout = 5;
         }
 
         public async Task<IdentityResult> IncreaseSuccessfulLoginCount(Player player)
@@ -66,15 +60,23 @@ namespace SuperCube3D_BL.Managers
 
             var result = await UpdateAsync(player);
 
-            //var loginAchievement = player.Achievements.FirstOrDefault(ach => ach.Id == 1);
-
             var loginPlayerAchievement = _playerAchievementRepository.Get(player.Id, 1);
 
             if (player.SuccessfulLoginCount >= 3 && loginPlayerAchievement == null)
             {
-                //await ActivateAchievement(player, 1);
                 _playerAchievementRepository.Create(player.Id, 1);
             }
+
+            return result;
+        }
+
+        public List<AchievementModel> GetAchievements(Player player)
+        {
+            string id = player.Id;
+
+            var achievements = _achievementRepository.GetAllByPlayerId(id);
+
+            var result = _mapper.Map<List<AchievementModel>>(achievements);
 
             return result;
         }

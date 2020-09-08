@@ -2,8 +2,12 @@
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using SuperCube3D_BL.Interfaces;
 using SuperCube3D_BL.Managers;
+using SuperCube3D_DAL;
 using SuperCube3D_DAL.Models;
 using SuperCube3D_DAL.Repositories;
 using System;
@@ -24,9 +28,19 @@ namespace SuperCube3D_MVC.Autofac
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterApiControllers(typeof(MvcApplication).Assembly);
 
+            builder.RegisterType<SuperCubeContext>().AsSelf().InstancePerRequest();
+            builder.RegisterType<PlayerManager>().AsSelf().InstancePerRequest();
+            builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
+
+            builder.Register(c => new UserStore<Player>(c.Resolve<SuperCubeContext>())).AsImplementedInterfaces().InstancePerRequest();
+            builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).As<IAuthenticationManager>();
+            builder.Register(c => new IdentityFactoryOptions<PlayerManager>
+            {
+                DataProtectionProvider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("SuperCube3D_MVC")
+            });
+
             builder.RegisterType<ScoreManager>().As<IScoreManager>();
             builder.RegisterType<ScoreRepository>().As<RepositoryBase<Score>>();
-            builder.RegisterType<PlayerService>().As<IPlayerService>();
             builder.RegisterModule<MapperModule>();
 
             var container = builder.Build();

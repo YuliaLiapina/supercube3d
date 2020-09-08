@@ -19,21 +19,19 @@ namespace SuperCube3D_MVC.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private PlayerManager _userManager;
-        private readonly IPlayerService _playerService;
         private readonly IMapper _mapper;
 
-        public ManageController(IPlayerService playerService, IMapper mapper)
+        public ManageController(IMapper mapper, PlayerManager playerManager)
         {
-            _playerService = playerService;
             _mapper = mapper;
+            _userManager = playerManager;
         }
 
         public ManageController(PlayerManager userManager, ApplicationSignInManager signInManager,
-            IPlayerService playerService, IMapper mapper)
+            IMapper mapper)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            _playerService = playerService;
             _mapper = mapper;
         }
 
@@ -153,7 +151,7 @@ namespace SuperCube3D_MVC.Controllers
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            var achievements = _playerService.GetAchievements(user);
+            var achievements = _userManager.GetAchievements(user);
 
             var model = _mapper.Map<List<AchievementViewModel>>(achievements);
 
