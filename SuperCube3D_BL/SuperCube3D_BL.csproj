@@ -81,7 +81,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\IPlayerService.cs" />
     <Compile Include="Interfaces\IScoreManager.cs" />
     <Compile Include="Managers\PlayerManager.cs" />

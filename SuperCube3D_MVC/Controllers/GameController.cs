@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace SuperCube3D_MVC.Controllers
 {
+    [Authorize]
     public class GameController : Controller
     {
         // GET: Game

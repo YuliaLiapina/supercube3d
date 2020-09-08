@@ -24,7 +24,6 @@ namespace SuperCube3D_MVC.Autofac
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterApiControllers(typeof(MvcApplication).Assembly);
 
-            builder.RegisterType<PlayerManager>().As<UserManager<Player>>();
             builder.RegisterType<ScoreManager>().As<IScoreManager>();
             builder.RegisterType<ScoreRepository>().As<RepositoryBase<Score>>();
             builder.RegisterType<PlayerService>().As<IPlayerService>();
