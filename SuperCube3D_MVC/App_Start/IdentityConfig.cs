@@ -30,9 +30,9 @@ namespace SuperCube3D_MVC
             return user.GenerateUserIdentityAsync((PlayerManager)UserManager);
         }
 
-        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
-        {
-            return new ApplicationSignInManager(context.GetUserManager<PlayerManager>(), context.Authentication);
-        }
+        //public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
+        //{
+        //    return new ApplicationSignInManager(context.GetUserManager<PlayerManager>(), context.Authentication);
+        //}
     }
 }

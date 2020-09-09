@@ -1,4 +1,5 @@
-﻿using SuperCube3D_DAL.Models;
+﻿using SuperCube3D_DAL.Interfaces;
+using SuperCube3D_DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace SuperCube3D_DAL.Repositories
 {
-    public class AchievementRepository
+    public class AchievementRepository : IAchievementRepository
     {
-        public List<Achievement> GetAllByPlayerId(string playerId)
+        public IEnumerable<Achievement> GetAllByPlayerId(string playerId)
         {
             using (var ctx = new SuperCubeContext())
             {
@@ -43,6 +44,7 @@ namespace SuperCube3D_DAL.Repositories
             }
         }
 
+        //for admin maybe
         public void Update(Achievement achievement)
         {
             using (var ctx = new SuperCubeContext())

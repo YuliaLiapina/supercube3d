@@ -1,33 +1,29 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
-using SuperCube3D_DAL;
+using SuperCube3D_BL.Models;
+using SuperCube3D_DAL.Interfaces;
 using SuperCube3D_DAL.Models;
+using SuperCube3D_DAL.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Data.Entity;
-using System.Text;
 using System.Threading.Tasks;
-using SuperCube3D_DAL.Repositories;
-using SuperCube3D_BL.Models;
-using AutoMapper;
 
 namespace SuperCube3D_BL.Managers
 {
     public class PlayerManager : UserManager<Player>
     {
-        private readonly AchievementRepository _achievementRepository;
-        private readonly PlayerAchievementRepository _playerAchievementRepository;
+        private readonly IAchievementRepository _achievementRepository;
+        private readonly IPlayerAchievementRepository _playerAchievementRepository;
         private readonly IMapper _mapper;
 
         public PlayerManager(IUserStore<Player> store, IdentityFactoryOptions<PlayerManager> options,
-            IMapper mapper)
+            IMapper mapper, IAchievementRepository achievementRepository,
+            IPlayerAchievementRepository playerAchievementRepository)
                 : base(store)
         {
-            _achievementRepository = new AchievementRepository();
-            _playerAchievementRepository = new PlayerAchievementRepository();
+            _achievementRepository = achievementRepository;
+            _playerAchievementRepository = playerAchievementRepository;
             _mapper = mapper;
 
             // Configure validation logic for usernames
@@ -80,19 +76,5 @@ namespace SuperCube3D_BL.Managers
 
             return result;
         }
-
-        //private async Task<IdentityResult> ActivateAchievement(Player player, int achievementId)
-        //{
-        //    var achievement = _achievementRepository.Get(achievementId);
-
-        //    if (achievement != null)
-        //    {
-        //        //player.PlayerAchievements.Add(achievement);
-        //    }
-
-        //    var result = await UpdateAsync(player);
-
-        //    return result;
-        //}
     }
 }

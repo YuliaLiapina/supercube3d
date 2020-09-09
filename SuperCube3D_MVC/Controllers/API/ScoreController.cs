@@ -18,17 +18,18 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace SuperCube3D_MVC.Controllers.API
 {
+    [Authorize]
     public class ScoreController : ApiController
     {
         private readonly IMapper _mapper;
         private readonly IScoreManager _scoreManager;
-        private readonly UserManager<Player> _playerManager;
+        private readonly PlayerManager _playerManager;
 
-        public ScoreController(IMapper mapper, IScoreManager scoreManager)
+        public ScoreController(IMapper mapper, IScoreManager scoreManager, PlayerManager playerManager)
         {
             _mapper = mapper;
             _scoreManager = scoreManager;
-            _playerManager = HttpContext.Current.GetOwinContext().GetUserManager<PlayerManager>();
+            _playerManager = playerManager;
         }
 
         // GET: api/Score
@@ -52,9 +53,13 @@ namespace SuperCube3D_MVC.Controllers.API
         {
             var unityScore = unityScoreJson.ToObject<ScorePostModel>();
 
-            var player = _playerManager.FindById(User.Identity.GetUserId());
+            //var player = _playerManager.FindById(User.Identity.GetUserId());
 
-            unityScore.Player = player;
+            //unityScore.Player = player;
+
+            //RequestContext.Principal.Identity.GetUserId();
+
+            unityScore.PlayerId = User.Identity.GetUserId();
             unityScore.Date = DateTime.Now;
 
             var result = _mapper.Map<ScoreModel>(unityScore);

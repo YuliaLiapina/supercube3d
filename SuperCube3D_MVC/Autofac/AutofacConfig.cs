@@ -8,6 +8,7 @@ using Microsoft.Owin.Security;
 using SuperCube3D_BL.Interfaces;
 using SuperCube3D_BL.Managers;
 using SuperCube3D_DAL;
+using SuperCube3D_DAL.Interfaces;
 using SuperCube3D_DAL.Models;
 using SuperCube3D_DAL.Repositories;
 using System;
@@ -39,8 +40,11 @@ namespace SuperCube3D_MVC.Autofac
                 DataProtectionProvider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("SuperCube3D_MVC")
             });
 
+            builder.RegisterType<AchievementRepository>().As<IAchievementRepository>();
+            builder.RegisterType<PlayerAchievementRepository>().As<IPlayerAchievementRepository>();
+
             builder.RegisterType<ScoreManager>().As<IScoreManager>();
-            builder.RegisterType<ScoreRepository>().As<RepositoryBase<Score>>();
+            builder.RegisterType<ScoreRepository>().As<IScoreRepository>();
             builder.RegisterModule<MapperModule>();
 
             var container = builder.Build();

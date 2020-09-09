@@ -6,12 +6,19 @@
 
 <h2>Achievements</h2>
 
-<ul>
-    @foreach(var ach in Model)
-    {
-        <li>
-            @ach.Title : @ach.Description
-        </li>
-    }
-</ul>
+@if (Model.Count() > 0)
+{
+    <ul>
+        @foreach (var ach in Model)
+        {
+            <li>
+                @ach.Title : @ach.Description
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <span>You don't have any achievements yet!</span>
+}
 

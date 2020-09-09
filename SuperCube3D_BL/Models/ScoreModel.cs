@@ -14,6 +14,7 @@ namespace SuperCube3D_BL.Models
         public int Result { get; set; }
         public DateTime Date { get; set; }
 
+        public string PlayerId { get; set; }
         public Player Player { get; set; }
     }
 }

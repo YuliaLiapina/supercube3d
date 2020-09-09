@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SuperCube3D_DAL.Models
 {
-    public class Achievement : IEntity
+    public class Achievement
     {
         public Achievement()
         {

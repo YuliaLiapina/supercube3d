@@ -20,11 +20,6 @@ namespace SuperCube3D_DAL
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<PlayerAchievement> PlayerAchievements { get; set; }
 
-        //public static SuperCubeContext Create()
-        //{
-        //    return new SuperCubeContext();
-        //}
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

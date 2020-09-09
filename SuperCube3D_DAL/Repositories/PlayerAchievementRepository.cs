@@ -1,4 +1,5 @@
-﻿using SuperCube3D_DAL.Models;
+﻿using SuperCube3D_DAL.Interfaces;
+using SuperCube3D_DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SuperCube3D_DAL.Repositories
 {
-    public class PlayerAchievementRepository
+    public class PlayerAchievementRepository : IPlayerAchievementRepository
     {
         public IEnumerable<PlayerAchievement> GetAllByPlayerId(string playerId)
         {

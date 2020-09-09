@@ -1,7 +1,34 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
-<h2>Game</h2>
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Controllers/SPA/score.js")"></script>
+}
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | SuperCube3D</title>
+    <link rel="shortcut icon" href="~/Game/TemplateData/favicon.ico" />
+    <link rel="stylesheet" href="~/Game/TemplateData/style.css" />
+    <script src="~/Game/TemplateData/UnityProgress.js"></script>
+    <script src="~/Game/Build/UnityLoader.js"></script>
+    <script>var unityInstance = UnityLoader.instantiate("unityContainer", "../Game/Build/WebEdition 2.0.json", { onProgress: UnityProgress });</script>
+</head>
+<body>
+    <div class="webgl-content">
+        <div id="unityContainer" style="width: 960px; height: 600px"></div>
+        <div class="footer">
+            <div class="webgl-logo"></div>
+            <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+            <div class="title">SuperCube3D</div>
+        </div>
+    </div>
+    <button id="score-button">Get Score</button>
+    <div id="score-info"></div>
+</body>
+</html>
 

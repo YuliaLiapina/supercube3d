@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SuperCube3D_BL.Interfaces;
 using SuperCube3D_BL.Models;
+using SuperCube3D_DAL.Interfaces;
 using SuperCube3D_DAL.Models;
 using SuperCube3D_DAL.Repositories;
 using System;
@@ -13,10 +14,10 @@ namespace SuperCube3D_BL.Managers
 {
     public class ScoreManager : IScoreManager
     {
-        private readonly RepositoryBase<Score> _scoreRepository;
+        private readonly IScoreRepository _scoreRepository;
         private readonly IMapper _mapper;
 
-        public ScoreManager(IMapper mapper, RepositoryBase<Score> scoreRepository)
+        public ScoreManager(IMapper mapper, IScoreRepository scoreRepository)
         {
             _mapper = mapper;
             _scoreRepository = scoreRepository;

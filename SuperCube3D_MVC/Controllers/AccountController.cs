@@ -20,39 +20,35 @@ namespace SuperCube3D_MVC.Controllers
         private ApplicationSignInManager _signInManager;
         private PlayerManager _userManager;
 
-        public AccountController()
-        {
-        }
-
         public AccountController(PlayerManager userManager, ApplicationSignInManager signInManager )
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
-        }
+        //public ApplicationSignInManager SignInManager
+        //{
+        //    get
+        //    {
+        //        return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        //    }
+        //    private set 
+        //    { 
+        //        _signInManager = value; 
+        //    }
+        //}
 
-        public PlayerManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<PlayerManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+        //public PlayerManager UserManager
+        //{
+        //    get
+        //    {
+        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<PlayerManager>();
+        //    }
+        //    private set
+        //    {
+        //        _userManager = value;
+        //    }
+        //}
 
         //
         // GET: /Account/Login
@@ -75,19 +71,19 @@ namespace SuperCube3D_MVC.Controllers
                 return View(model);
             }
 
-            var userManager = HttpContext.GetOwinContext().GetUserManager<PlayerManager>();
+            //var userManager = HttpContext.GetOwinContext().GetUserManager<PlayerManager>();
             var authManager = HttpContext.GetOwinContext().Authentication;
 
-            var user = await userManager.FindAsync(model.UserName, model.Password);
+            var user = await _userManager.FindAsync(model.UserName, model.Password);
             
             if (user != null)
             {
-                var ident = userManager.CreateIdentity(user,
+                var ident = _userManager.CreateIdentity(user,
                     DefaultAuthenticationTypes.ApplicationCookie);
 
                 authManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
 
-                await userManager.IncreaseSuccessfulLoginCount(user);
+                await _userManager.IncreaseSuccessfulLoginCount(user);
             }
 
             return RedirectToAction("Index", "Home");
@@ -111,10 +107,10 @@ namespace SuperCube3D_MVC.Controllers
             if (ModelState.IsValid)
             {
                 var user = new Player { UserName = model.UserName, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await _signInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -155,10 +151,6 @@ namespace SuperCube3D_MVC.Controllers
         //    base.Dispose(disposing);
         //}
 
-        //#region Helpers
-        //// Used for XSRF protection when adding external logins
-        //private const string XsrfKey = "XsrfId";
-
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -175,14 +167,16 @@ namespace SuperCube3D_MVC.Controllers
         //    }
         //}
 
-        //private ActionResult RedirectToLocal(string returnUrl)
-        //{
-        //    if (Url.IsLocalUrl(returnUrl))
-        //    {
-        //        return Redirect(returnUrl);
-        //    }
-        //    return RedirectToAction("Index", "Home");
-        //}
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            //return RedirectToAction("Index", "Home");
+
+            return Redirect(returnUrl);
+        }
 
         //internal class ChallengeResult : HttpUnauthorizedResult
         //{
