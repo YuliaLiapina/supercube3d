@@ -35,7 +35,7 @@ namespace SuperCube3D_MVC.Controllers.API
         // GET: api/Score
         public string Get()
         {
-            var scoreList = _scoreManager.GetAllScores();
+            var scoreList = _scoreManager.GetTop10Scores();
 
             var result = _mapper.Map<List<ScorePostModel>>(scoreList);
 
@@ -48,16 +48,10 @@ namespace SuperCube3D_MVC.Controllers.API
             return "value";
         }
 
-        // POST: api/Game
+        // POST: api/Score
         public void Post([FromBody] JObject unityScoreJson)
         {
             var unityScore = unityScoreJson.ToObject<ScorePostModel>();
-
-            //var player = _playerManager.FindById(User.Identity.GetUserId());
-
-            //unityScore.Player = player;
-
-            //RequestContext.Principal.Identity.GetUserId();
 
             unityScore.PlayerId = User.Identity.GetUserId();
             unityScore.Date = DateTime.Now;
@@ -67,7 +61,7 @@ namespace SuperCube3D_MVC.Controllers.API
             _scoreManager.CreateScore(result);
         }
 
-        // DELETE: api/Game/5
+        // DELETE: api/Score/5
         public void Delete(int id)
         {
         }

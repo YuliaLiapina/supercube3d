@@ -9,7 +9,7 @@ namespace SuperCube3D_BL.Interfaces
 {
     public interface IScoreManager
     {
-        IList<ScoreModel> GetAllScores();
+        IList<ScoreModel> GetTop10Scores();
         void CreateScore(ScoreModel scoreModel);
     }
 }

@@ -23,17 +23,21 @@ namespace SuperCube3D_BL.Managers
             _scoreRepository = scoreRepository;
         }
 
-        public IList<ScoreModel> GetAllScores()
+        public IList<ScoreModel> GetTop10Scores()
         {
             var scoreList = _scoreRepository.GetAll();
 
-            var result = _mapper.Map<IList<ScoreModel>>(scoreList);
+            var top10List = scoreList.OrderByDescending(s => s.Result).Take(10);
+
+            var result = _mapper.Map<IList<ScoreModel>>(top10List);
 
             return result;
         }
 
         public void CreateScore(ScoreModel scoreModel)
         {
+            var scoreList = _scoreRepository.GetAll();
+
             var score = _mapper.Map<Score>(scoreModel);
 
             _scoreRepository.Create(score);
