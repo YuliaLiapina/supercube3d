@@ -16,11 +16,13 @@ namespace SuperCube3D_BL.Managers
     {
         private readonly IScoreRepository _scoreRepository;
         private readonly IMapper _mapper;
+        private readonly PlayerManager _playerManager;
 
-        public ScoreManager(IMapper mapper, IScoreRepository scoreRepository)
+        public ScoreManager(IMapper mapper, IScoreRepository scoreRepository, PlayerManager playerManager)
         {
             _mapper = mapper;
             _scoreRepository = scoreRepository;
+            _playerManager = playerManager;
         }
 
         public IList<ScoreModel> GetTop10Scores()
@@ -50,6 +52,18 @@ namespace SuperCube3D_BL.Managers
         public void CreateScore(ScoreModel scoreModel)
         {
             var score = _mapper.Map<Score>(scoreModel);
+
+            var topScore = GetTop10Scores().FirstOrDefault();
+
+            if (score.Result > topScore.Result)
+            {
+                _playerManager.ActivateAchievement(score.PlayerId, 3);
+            }
+
+            if (score.Result >= 3000)
+            {
+                _playerManager.ActivateAchievement(score.PlayerId, 2);
+            }
 
             _scoreRepository.Create(score);
         }

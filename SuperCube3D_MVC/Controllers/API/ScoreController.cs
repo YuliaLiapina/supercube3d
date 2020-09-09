@@ -51,21 +51,14 @@ namespace SuperCube3D_MVC.Controllers.API
         // POST: api/Score
         public void Post([FromBody] JObject unityScoreJson)
         {
-            string playerId = User.Identity.GetUserId();
-
             var unityScore = unityScoreJson.ToObject<ScorePostModel>();
 
-            unityScore.PlayerId = playerId;
+            unityScore.PlayerId = User.Identity.GetUserId();
             unityScore.Date = DateTime.Now;
 
             var result = _mapper.Map<ScoreModel>(unityScore);
 
             _scoreManager.CreateScore(result);
-
-            if(result.Result >= 3000)
-            {
-                _playerManager.ActivateAchievement(playerId, 2);
-            }
         }
 
         // DELETE: api/Score/5
