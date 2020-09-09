@@ -12,6 +12,7 @@ namespace SuperCube3D_MVC.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public ScoreViewModel HighScore { get; set; }
     }
 
     public class SetPasswordViewModel

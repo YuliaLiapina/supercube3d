@@ -60,7 +60,7 @@ namespace SuperCube3D_BL.Managers
 
             if (player.SuccessfulLoginCount >= 3 && loginPlayerAchievement == null)
             {
-                _playerAchievementRepository.Create(player.Id, 1);
+                ActivateAchievement(player.Id, 1);
             }
 
             return result;
@@ -75,6 +75,11 @@ namespace SuperCube3D_BL.Managers
             var result = _mapper.Map<List<AchievementModel>>(achievements);
 
             return result;
+        }
+
+        public void ActivateAchievement(string playerId, int achievementId)
+        {
+            _playerAchievementRepository.Create(playerId, achievementId);
         }
     }
 }

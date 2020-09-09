@@ -19,13 +19,15 @@ namespace SuperCube3D_MVC.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private PlayerManager _userManager;
+        private readonly IScoreManager _scoreManager;
         private readonly IMapper _mapper;
 
         public ManageController(PlayerManager userManager, ApplicationSignInManager signInManager,
-            IMapper mapper)
+            IScoreManager scoreManager, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _scoreManager = scoreManager;
             _mapper = mapper;
         }
 
@@ -43,13 +45,19 @@ namespace SuperCube3D_MVC.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var user = _userManager.FindById(userId);
+
+            var highScoreModel = _scoreManager.GetHighScoreForPlayer(user);
+            var highScore = _mapper.Map<ScoreViewModel>(highScoreModel);
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await _userManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                HighScore = highScore
             };
             return View(model);
         }
@@ -127,6 +135,8 @@ namespace SuperCube3D_MVC.Controllers
 
             return View(model);
         }
+
+        //public 
 
         protected override void Dispose(bool disposing)
         {

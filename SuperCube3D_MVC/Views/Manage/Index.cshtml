@@ -27,5 +27,16 @@
         <dd>
             [ @Html.ActionLink("View your achievements", "Achievements") ]
         </dd>
+        <dt>Current High Score:</dt>
+        <dd>
+            @if (Model.HighScore != null)
+            {
+                @Model.HighScore.Result
+            }
+            else
+            {
+                <span>Looks like you haven't played the game yet...</span>
+            }
+        </dd>
     </dl>
 </div>

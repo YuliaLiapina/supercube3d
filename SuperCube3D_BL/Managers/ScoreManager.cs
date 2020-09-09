@@ -34,10 +34,21 @@ namespace SuperCube3D_BL.Managers
             return result;
         }
 
+        public ScoreModel GetHighScoreForPlayer(Player player)
+        {
+            string id = player.Id;
+
+            var playerScores = _scoreRepository.GetAll().Where(s => s.PlayerId == id);
+
+            var highScore = playerScores.OrderByDescending(s => s.Result).FirstOrDefault();
+
+            var result = _mapper.Map<ScoreModel>(highScore);
+
+            return result;
+        }
+
         public void CreateScore(ScoreModel scoreModel)
         {
-            var scoreList = _scoreRepository.GetAll();
-
             var score = _mapper.Map<Score>(scoreModel);
 
             _scoreRepository.Create(score);
