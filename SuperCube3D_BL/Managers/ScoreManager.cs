@@ -15,14 +15,17 @@ namespace SuperCube3D_BL.Managers
     public class ScoreManager : IScoreManager
     {
         private readonly IScoreRepository _scoreRepository;
+        private readonly IPlayerAchievementRepository _playerAchievementRepository;
         private readonly IMapper _mapper;
         private readonly PlayerManager _playerManager;
 
-        public ScoreManager(IMapper mapper, IScoreRepository scoreRepository, PlayerManager playerManager)
+        public ScoreManager(IMapper mapper, IScoreRepository scoreRepository, PlayerManager playerManager,
+            IPlayerAchievementRepository playerAchievementRepository)
         {
             _mapper = mapper;
             _scoreRepository = scoreRepository;
             _playerManager = playerManager;
+            _playerAchievementRepository = playerAchievementRepository;
         }
 
         public IList<ScoreModel> GetTop10Scores()
@@ -54,15 +57,18 @@ namespace SuperCube3D_BL.Managers
             var score = _mapper.Map<Score>(scoreModel);
 
             var topScore = GetTop10Scores().FirstOrDefault();
+            var topScorePlayerAchievement = _playerAchievementRepository.Get(score.PlayerId, 3);
 
-            if (score.Result > topScore.Result)
+            if (score.Result > topScore.Result && topScorePlayerAchievement == null)
             {
-                _playerManager.ActivateAchievement(score.PlayerId, 3);
+                _playerAchievementRepository.Create(score.PlayerId, 3);
             }
 
-            if (score.Result >= 3000)
+            var score3000PlayerAchievement = _playerAchievementRepository.Get(score.PlayerId, 2);
+
+            if (score.Result >= 3000 && score3000PlayerAchievement == null)
             {
-                _playerManager.ActivateAchievement(score.PlayerId, 2);
+                _playerAchievementRepository.Create(score.PlayerId, 2);
             }
 
             _scoreRepository.Create(score);
