@@ -72,6 +72,10 @@
     <Compile Include="Migrations\202009071435250_ManuallyCreatedPlayerAchievements.designer.cs">
       <DependentUpon>202009071435250_ManuallyCreatedPlayerAchievements.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009101339126_AddPlayedTheGamePropertyToPlayer.cs" />
+    <Compile Include="Migrations\202009101339126_AddPlayedTheGamePropertyToPlayer.designer.cs">
+      <DependentUpon>202009101339126_AddPlayedTheGamePropertyToPlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Achievement.cs" />
     <Compile Include="Models\PlayerAchievement.cs" />
@@ -112,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009071435250_ManuallyCreatedPlayerAchievements.resx">
       <DependentUpon>202009071435250_ManuallyCreatedPlayerAchievements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009101339126_AddPlayedTheGamePropertyToPlayer.resx">
+      <DependentUpon>202009101339126_AddPlayedTheGamePropertyToPlayer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

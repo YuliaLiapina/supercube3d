@@ -17,6 +17,7 @@ namespace SuperCube3D_DAL.Models
         }
 
         public int SuccessfulLoginCount { get; set; }
+        public bool PlayedTheGame { get; set; }
         public ICollection<Score> HighScores { get; set; }
         public ICollection<PlayerAchievement> PlayerAchievements { get; set; }
 

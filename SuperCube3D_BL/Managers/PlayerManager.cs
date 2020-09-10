@@ -77,9 +77,18 @@ namespace SuperCube3D_BL.Managers
             return result;
         }
 
-        //public void ActivateAchievement(string playerId, int achievementId)
-        //{
-        //    _playerAchievementRepository.Create(playerId, achievementId);
-        //}
+        public async Task<IdentityResult> MarkPlayedGameTrue(Player player)
+        {
+            if (!player.PlayedTheGame)
+            {
+                player.PlayedTheGame = true;
+
+                _playerAchievementRepository.Create(player.Id, 5);
+            }
+
+            var result = await UpdateAsync(player);
+
+            return result;
+        }
     }
 }

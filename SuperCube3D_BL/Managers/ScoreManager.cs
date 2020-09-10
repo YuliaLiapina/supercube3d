@@ -65,10 +65,16 @@ namespace SuperCube3D_BL.Managers
             }
 
             var score3000PlayerAchievement = _playerAchievementRepository.Get(score.PlayerId, 2);
+            var score5000PlayerAchievememnt = _playerAchievementRepository.Get(score.PlayerId, 4);
 
             if (score.Result >= 3000 && score3000PlayerAchievement == null)
             {
                 _playerAchievementRepository.Create(score.PlayerId, 2);
+            }
+
+            if (score.Result >= 5000 && score5000PlayerAchievememnt == null)
+            {
+                _playerAchievementRepository.Create(score.PlayerId, 4);
             }
 
             _scoreRepository.Create(score);

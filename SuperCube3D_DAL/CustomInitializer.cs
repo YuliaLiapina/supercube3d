@@ -17,7 +17,7 @@ namespace SuperCube3D_DAL
                 new Achievement
                 {
                     Id = 1,
-                    Title = "Welcome Aboard!",
+                    Title = "Regular Visitor",
                     Description = "Successfully login to your account 3 times."
                 },
                 new Achievement
@@ -31,6 +31,18 @@ namespace SuperCube3D_DAL
                     Id = 3,
                     Title = "The Best of the Best",
                     Description = "Reach the top spot on the leaderboard!"
+                },
+                new Achievement
+                {
+                    Id = 4,
+                    Title = "SuperCube 5000",
+                    Description = "Get 5000 points in a single SuperCube run."
+                },
+                new Achievement
+                {
+                    Id = 5,
+                    Title = "Welcome!",
+                    Description = "Play SuperCube for the first time."
                 }
             };
 
