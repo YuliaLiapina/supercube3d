@@ -18,18 +18,15 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace SuperCube3D_MVC.Controllers.API
 {
-    [Authorize]
     public class ScoreController : ApiController
     {
         private readonly IMapper _mapper;
         private readonly IScoreManager _scoreManager;
-        private readonly PlayerManager _playerManager;
 
-        public ScoreController(IMapper mapper, IScoreManager scoreManager, PlayerManager playerManager)
+        public ScoreController(IMapper mapper, IScoreManager scoreManager)
         {
             _mapper = mapper;
             _scoreManager = scoreManager;
-            _playerManager = playerManager;
         }
 
         // GET: api/Score
@@ -51,14 +48,17 @@ namespace SuperCube3D_MVC.Controllers.API
         // POST: api/Score
         public void Post([FromBody] JObject unityScoreJson)
         {
-            var unityScore = unityScoreJson.ToObject<ScorePostModel>();
+            if (User.Identity.IsAuthenticated)
+            {
+                var unityScore = unityScoreJson.ToObject<ScorePostModel>();
 
-            unityScore.PlayerId = User.Identity.GetUserId();
-            unityScore.Date = DateTime.Now;
+                unityScore.PlayerId = User.Identity.GetUserId();
+                unityScore.Date = DateTime.Now;
 
-            var result = _mapper.Map<ScoreModel>(unityScore);
+                var result = _mapper.Map<ScoreModel>(unityScore);
 
-            _scoreManager.CreateScore(result);
+                _scoreManager.CreateScore(result);
+            }
         }
 
         // DELETE: api/Score/5

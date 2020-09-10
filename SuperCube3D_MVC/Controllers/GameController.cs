@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace SuperCube3D_MVC.Controllers
 {
-    [Authorize]
     public class GameController : Controller
     {
         private readonly PlayerManager _playerManager;
@@ -21,11 +20,14 @@ namespace SuperCube3D_MVC.Controllers
         // GET: Game
         public async Task<ActionResult> Index()
         {
-            var user = await _playerManager.FindByIdAsync(User.Identity.GetUserId());
-
-            if (!user.PlayedTheGame)
+            if (User.Identity.IsAuthenticated)
             {
-                await _playerManager.MarkPlayedGameTrue(user);
+                var user = await _playerManager.FindByIdAsync(User.Identity.GetUserId());
+
+                if (!user.PlayedTheGame)
+                {
+                    await _playerManager.MarkPlayedGameTrue(user);
+                }
             }
 
             return View();

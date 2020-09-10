@@ -12,21 +12,18 @@
     <dl class="dl-horizontal">
         <dt>Password:</dt>
         <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
+            <form action="/Manage/ChangePassword">
+                <button class="button" type="submit">Change password</button>
+            </form>
         </dd>
+        <br />
         <dt>Achievements:</dt>
         <dd>
-            [ @Html.ActionLink("View your achievements", "Achievements") ]
+            <form action="/Manage/Achievements">
+                <button class="button" type="submit">View achievements</button>
+            </form>
         </dd>
+        <br />
         <dt>Current High Score:</dt>
         <dd>
             @if (Model.HighScore != null)
@@ -35,7 +32,7 @@
             }
             else
             {
-                <span>Looks like you haven't played the game yet...</span>
+                <span>Looks like you haven't played the game yet... Why not <a href="Game/Index">take a shot at it right now?</a></span>
             }
         </dd>
     </dl>

@@ -4,11 +4,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI;
 using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SuperCube3D_BL.Interfaces;
 using SuperCube3D_BL.Managers;
+using SuperCube3D_BL.Models;
 using SuperCube3D_DAL.Models;
 using SuperCube3D_MVC.Models;
 
@@ -19,11 +23,14 @@ namespace SuperCube3D_MVC.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private PlayerManager _userManager;
+        private readonly IAuthenticationManager _authManager;
 
-        public AccountController(PlayerManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(PlayerManager userManager, ApplicationSignInManager signInManager,
+            IAuthenticationManager authManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _authManager = authManager;
         }
 
         //
@@ -47,9 +54,6 @@ namespace SuperCube3D_MVC.Controllers
                 return View(model);
             }
 
-            //var userManager = HttpContext.GetOwinContext().GetUserManager<PlayerManager>();
-            var authManager = HttpContext.GetOwinContext().Authentication;
-
             var user = await _userManager.FindAsync(model.UserName, model.Password);
             
             if (user != null)
@@ -57,12 +61,16 @@ namespace SuperCube3D_MVC.Controllers
                 var ident = _userManager.CreateIdentity(user,
                     DefaultAuthenticationTypes.ApplicationCookie);
 
-                authManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
+                _authManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
 
                 await _userManager.IncreaseSuccessfulLoginCount(user);
             }
 
-            return RedirectToAction("Index", "Home");
+            //var test = new Page();
+            //var t = this.GetType();
+            //ClientScriptManager.
+
+            return RedirectToLocal(returnUrl);
         }
 
         //
@@ -103,7 +111,7 @@ namespace SuperCube3D_MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            _authManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
 
@@ -127,14 +135,6 @@ namespace SuperCube3D_MVC.Controllers
         //    base.Dispose(disposing);
         //}
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
-
         //private void AddErrors(IdentityResult result)
         //{
         //    foreach (var error in result.Errors)
@@ -149,39 +149,8 @@ namespace SuperCube3D_MVC.Controllers
             {
                 return Redirect(returnUrl);
             }
-            //return RedirectToAction("Index", "Home");
 
-            return Redirect(returnUrl);
+            return RedirectToAction("Index", "Manage");
         }
-
-        //internal class ChallengeResult : HttpUnauthorizedResult
-        //{
-        //    public ChallengeResult(string provider, string redirectUri)
-        //        : this(provider, redirectUri, null)
-        //    {
-        //    }
-
-        //    public ChallengeResult(string provider, string redirectUri, string userId)
-        //    {
-        //        LoginProvider = provider;
-        //        RedirectUri = redirectUri;
-        //        UserId = userId;
-        //    }
-
-        //    public string LoginProvider { get; set; }
-        //    public string RedirectUri { get; set; }
-        //    public string UserId { get; set; }
-
-        //    public override void ExecuteResult(ControllerContext context)
-        //    {
-        //        var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-        //        if (UserId != null)
-        //        {
-        //            properties.Dictionary[XsrfKey] = UserId;
-        //        }
-        //        context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-        //    }
-        //}
-        //#endregion
     }
 }

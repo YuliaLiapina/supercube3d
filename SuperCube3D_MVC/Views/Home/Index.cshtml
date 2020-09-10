@@ -2,4 +2,32 @@
     ViewBag.Title = "Home Page";
 }
 
-<h1>WELCOME TO SUPERCUBE 3D</h1>
+<h1 style="text-align:center">WELCOME TO SUPERCUBE 3D</h1>
+
+<form action="/Game/Index">
+    <button class="button" type="submit" style="position:absolute;left:45%;top:20%">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <span>Play as @User.Identity.Name</span>
+        }
+        else
+        {
+            <span>Play as a guest</span>
+        }
+    </button>
+</form>
+<form action="/Account/Register">
+    <button class="button" type="submit" style="position:absolute;left:45%;top:27%">Register a new account</button>
+</form>
+@if (User.Identity.IsAuthenticated)
+{
+    <form action="/Accoung/LogOff">
+        <button class="button" type="submit" style="position:absolute;left:45%;top:34%">Log Out</button>
+    </form>
+}
+else
+{
+    <form action="/Account/Login">
+        <button class="button" type="submit" style="position:absolute;left:45%;top:34%">Login to your account</button>
+    </form>
+}
